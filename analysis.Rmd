@@ -1,0 +1,49 @@
+---
+title: "Analysis of The Characteristics of the Oldest Living Cats"
+author: "Rachel Bellflowers"
+date: "8/31/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+library(xml2)
+library(rvest)
+library(tidyverse)
+library(plotly)
+
+
+cats <- "https://en.wikipedia.org/wiki/List_of_oldest_cats"
+
+table <- read_html(cats) %>%
+  html_nodes(xpath = '/html/body/div[3]/div[3]/div[5]/div[1]/table[2]') %>%
+  html_table(fill = TRUE)
+
+table <- table[[1]]
+
+table <- table[-29, -c(9, 11:12)]
+
+table[table == ""] <- NA
+
+table[5] <- c("38.0082191780822", "38", "36.0027397260274", "34.4109589041096", "34.1643835616438", "33.4986301369863", "33", "33", "31.1643835616438", "32", "31.9150684931507", "31.1643835616438", "31", "30.1123287671233", "30", "30", "29", "29", "28", "28", "28", "27.1917808219178", "27", "27", "27", "27", "26.0712328767123", "26")
+
+table$`Reported age` <- as.numeric(table$`Reported age`)
+
+
+
+```
+
+## R Markdown
+
+```{r}
+ggplot(table, aes(Country)) +
+  geom_bar() +
+  theme_minimal()
+```
+
+
+```{r}
+plot_ly(table, x = ~Breed, type = "histogram")
+```
+
