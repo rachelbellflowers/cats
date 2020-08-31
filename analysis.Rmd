@@ -6,7 +6,7 @@ output: html_document
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
 
 library(xml2)
 library(rvest)
@@ -30,16 +30,14 @@ table[5] <- c("38.0082191780822", "38", "36.0027397260274", "34.4109589041096", 
 
 table$`Reported age` <- as.numeric(table$`Reported age`)
 
-
-
 ```
 
-## R Markdown
+## Introduction
+
+The minimum age requirement for cats to be added to this list was 25 years old.
 
 ```{r}
-ggplot(table, aes(Country)) +
-  geom_bar() +
-  theme_minimal()
+plot_ly(table, x = ~Country, type = "histogram")
 ```
 
 
