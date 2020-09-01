@@ -1,18 +1,24 @@
 ---
 title: "Analysis of The Characteristics of the Oldest Living Cats"
-author: "Rachel Bellflowers"
-date: "8/31/2020"
+author: "beep"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: html_document
+bibliography: references.bib 
+nocite: '@*'
 ---
 
+
+
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
+
+#knitr::write_bib(c('knitr', 'xml2', 'rvest', 'tidyverse', 'plotly', 'ggthemes'), 'references.bib', width = 60)
 
 library(xml2)
 library(rvest)
 library(tidyverse)
 library(plotly)
-
+library(ggthemes)
 
 cats <- "https://en.wikipedia.org/wiki/List_of_oldest_cats"
 
@@ -30,18 +36,78 @@ table[5] <- c("38.0082191780822", "38", "36.0027397260274", "34.4109589041096", 
 
 table$`Reported age` <- as.numeric(table$`Reported age`)
 
+
+
 ```
 
 ## Introduction
 
 The minimum age requirement for cats to be added to this list was 25 years old.
 
-```{r}
-plot_ly(table, x = ~Country, type = "histogram")
+## Exploratory Analysis
+
+```{r country}
+
+#hmm <- table %>% group_by(Country) 
+
+#hmm <- hmm %>%
+  #arrange(Country)
+
+#tab_country <- table %>%
+#  mutate(Name = fct_reorder(Country, count(Country))) 
+
+country <- plot_ly(table, x = ~Country, type = "histogram")
+
+country <- country %>% layout(title = "Country of Origin")
+
+country
 ```
 
+<br>
+<br>
 
-```{r}
-plot_ly(table, x = ~Breed, type = "histogram")
+```{r breed}
+breed <- plot_ly(table, x = ~Breed, type = "histogram")
+
+breed <- breed %>% layout(title = "Cat Breeds")
+
+breed
+```
+<br>
+<br>
+
+```{r ages}
+tab_age <- table %>%
+  mutate(Name = fct_reorder(Name, `Reported age`)) 
+
+
+ages <- plot_ly(tab_age, x = ~Name, y = ~`Reported age`, type = "bar")
+
+ages <- ages %>% layout(title = "Ages and Names of the Cats", yaxis = list(title = "Reported age"), categoryorder = "array",
+     categoryarray = ~`Reported age`)
+
+ages
+
 ```
 
+<br>
+<br>
+
+```{r sex}
+
+sex <- plot_ly(table, x = ~Sex, type = "histogram")
+
+sex <- sex %>% layout(title = "Count of Sex of the Cats")
+
+sex
+```
+
+```{r include = FALSE}
+ahh <- ggplot(table, aes(Sex)) +
+   geom_bar() +
+  theme_tufte()
+
+ggplotly(ahh)
+```
+
+# References
