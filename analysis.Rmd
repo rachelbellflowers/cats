@@ -1,18 +1,19 @@
 ---
 title: "Analysis of The Characteristics of the Oldest Living Cats"
-author: "beep"
+always_allow_html: true
+author: "Rachel Bellflowers"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: html_document
-bibliography: references.bib 
+output: 
+  html_document:
+    keep_md: true
+bibliography: references.bib  
 nocite: '@*'
 ---
-
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-#knitr::write_bib(c('knitr', 'xml2', 'rvest', 'tidyverse', 'plotly', 'ggthemes'), 'references.bib', width = 60)
+#knitr::write_bib(c("knitr", "plotly", "xml2", "rvest", "tidyverse", "ggthemes"), "references.bib")
 
 library(xml2)
 library(rvest)
@@ -32,34 +33,53 @@ table <- table[-29, -c(9, 11:12)]
 
 table[table == ""] <- NA
 
+colnames(table)[5] <- "reported_age"
+
 table[5] <- c("38.0082191780822", "38", "36.0027397260274", "34.4109589041096", "34.1643835616438", "33.4986301369863", "33", "33", "31.1643835616438", "32", "31.9150684931507", "31.1643835616438", "31", "30.1123287671233", "30", "30", "29", "29", "28", "28", "28", "27.1917808219178", "27", "27", "27", "27", "26.0712328767123", "26")
 
-table$`Reported age` <- as.numeric(table$`Reported age`)
-
-
+table$reported_age <- as.numeric(table$reported_age)
 
 ```
 
+---
+
 ## Introduction
 
-The minimum age requirement for cats to be added to this list was 25 years old.
+This is an analysis of an unofficial list from [Wikipedia](https://en.wikipedia.org/wiki/List_of_oldest_cats) of world's oldest cats. The reported ages range from precise to vague estimates. The minimum age requirement for cats to be added to this list was 25 years old. Despite this dataset being small and imprecise, I hope by examining it to discover possible factors contributing to these cats' longevity. 
+
+---
+
+## Method
+
+To obtain this dataset, I used the `rvest` package to webscrape the table from its Wikipedia page. In the case of cats with imprecise ages, I calculated their approximate age. For instance, if a cat was listed as being 29 years old and 8 months, I inputted their age as $29 + (8 * 30 )/365 = 29.6575$ days. Then, I used the `plotly` package to create visualizations.
+
+---
 
 ## Exploratory Analysis
 
+<br>
+
+```{r}
+tab_age <- table %>%
+  mutate(Name = fct_reorder(Name, reported_age)) 
+
+ages <- plot_ly(tab_age, x = ~Name, y = ~reported_age, type = "bar")
+
+ages <- ages %>% layout(title = "Ages and Names of the Cats", yaxis = list(title = "Reported age"))
+                        
+ages
+```
+
+
+<br><br>
+
+
 ```{r country}
 
-#hmm <- table %>% group_by(Country) 
-
-#hmm <- hmm %>%
-  #arrange(Country)
-
-#tab_country <- table %>%
-#  mutate(Name = fct_reorder(Country, count(Country))) 
-
 country <- plot_ly(table, x = ~Country, type = "histogram")
-
+ 
 country <- country %>% layout(title = "Country of Origin")
-
+ 
 country
 ```
 
@@ -73,41 +93,33 @@ breed <- breed %>% layout(title = "Cat Breeds")
 
 breed
 ```
-<br>
-<br>
-
-```{r ages}
-tab_age <- table %>%
-  mutate(Name = fct_reorder(Name, `Reported age`)) 
-
-
-ages <- plot_ly(tab_age, x = ~Name, y = ~`Reported age`, type = "bar")
-
-ages <- ages %>% layout(title = "Ages and Names of the Cats", yaxis = list(title = "Reported age"), categoryorder = "array",
-     categoryarray = ~`Reported age`)
-
-ages
-
-```
 
 <br>
 <br>
+
 
 ```{r sex}
 
 sex <- plot_ly(table, x = ~Sex, type = "histogram")
 
-sex <- sex %>% layout(title = "Count of Sex of the Cats")
+sex <- sex %>% layout(title = "Count of Sex")
 
 sex
 ```
 
-```{r include = FALSE}
-ahh <- ggplot(table, aes(Sex)) +
-   geom_bar() +
-  theme_tufte()
+---
 
-ggplotly(ahh)
+```{r}
+#table$sex_num <- table$Sex
+
+#table$sex_num[which(table$Sex == "female")] <- "1"
+#table$sex_num[which(table$Sex == "male")] <- "0"
+#table$sex_num <- as.numeric(table$sex_num)
+
+#t.test(sex_num, a)
+
 ```
+
+
 
 # References
