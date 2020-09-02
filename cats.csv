@@ -1,0 +1,29 @@
+"rank","name","birth_date","death_date","reported_age","breed","sex","country","sex_num","country_num"
+1,"Creme Puff","August 3, 1967","August 6, 2005",38.0082191780822,"Tabby mix","female","United States",1,6
+2,"Baby","1970","March 2008",38,"Black DSH","male","United States",0,6
+3,"Puss","November 28, 1903","November 29, 1939",36.0027397260274,"Tabby","male","United Kingdom",0,5
+4,"Ma","May–June 1923","November 5, 1957",34.4109589041096,"Tabby DSH","female","United Kingdom",1,5
+5,"Granpa Rexs Allen","February 1, 1964","April 1, 1998",34.1643835616438,"Sphynx-Devon Rex","male","United States",0,6
+6,"Sarah","March 1982","September 2015",33.4986301369863,NA,"female","New Zealand",1,2
+7,"Miez Maz","c. 1979","February 2012",33,NA,"male","Switzerland",0,4
+8,"Sasha","1986","2019",33,"Tortoiseshell cat","female","United Kingdom",1,5
+9,"Rubble","May 1988","July 2020",31.1643835616438,"Maine Coon","male","United Kingdom",0,5
+10,"Nutmeg","1986","August 29, 2017",32,"Tabby","male","United Kingdom",0,5
+11,"Kitty","July 1957","June 1989",31.9150684931507,"Black DSH","female","United Kingdom",1,5
+12,"Spike","May 1970","July 2001",31.1643835616438,"longhair (orange and white)","male","United Kingdom",0,5
+13,"Tiger","July 1988","July 22, 2020",31,"Orange tabby","male","United States",0,6
+14,"Whiskey","August 1, 1985","September 11, 2015",30.1123287671233,"Black and white DSH","male","United Kingdom",0,5
+15,"Henry","March 1986",NA,30,"Tabby","male","United Kingdom",0,5
+16,"Scooter","March 26, 1986","April 2016",30,"Siamese cat","male","United States",0,6
+17,"Missan","1985",NA,29,NA,"female","Sweden",1,3
+18,"Squeak","1987",NA,29,"Calico cat","female","United States",1,6
+19,"Cola","November 1985",NA,28,"Black cat","female","United Kingdom",1,5
+20,"Soot","1987",NA,28,"Black cat","male","Canada",0,1
+21,"Tattie","May 5, 1991",NA,28,"Calico cat","female","Canada",1,1
+22,"Tiffany Two","March 13, 1988","May 22, 2015",27.1917808219178,"Tortoiseshell cat","female","United States",1,6
+23,"Wadsworth","March 6, 1986",NA,27,"Black and white DSH","male","United Kingdom",0,5
+24,"Banjo","1989",NA,27,NA,"male","United Kingdom",0,5
+25,"Kataleena Lady","March 11, 1977",NA,27,"Burmese cat",NA,"Australia",1,0
+26,"Corduroy","August 1, 1989","October 2016",27,"Tabby","male","United States",0,6
+27,"Tammy","March 1990",NA,26.0712328767123,"Black-and-white longhair","female","United Kingdom",1,5
+28,"Hobo","1986",NA,26,"White DSH","female","United States",1,6

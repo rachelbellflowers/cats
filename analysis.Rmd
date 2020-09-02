@@ -1,7 +1,7 @@
 ---
 title: "Analysis of The Characteristics of the Oldest Living Cats"
 always_allow_html: true
-author: "Rachel Bellflowers"
+author: "beep"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
 output: 
   html_document:
@@ -65,7 +65,7 @@ tab_age <- table %>%
 
 ages <- plot_ly(tab_age, x = ~Name, y = ~reported_age, type = "bar")
 
-ages <- ages %>% layout(title = "Ages and Names of the Cats", yaxis = list(title = "Reported age"))
+ages <- ages %>% layout(title = "Ages and Names", yaxis = list(title = "Reported age"))
                         
 ages
 ```
@@ -109,15 +109,57 @@ sex
 
 ---
 
-```{r}
-#table$sex_num <- table$Sex
+```{r include = FALSE}
 
-#table$sex_num[which(table$Sex == "female")] <- "1"
-#table$sex_num[which(table$Sex == "male")] <- "0"
-#table$sex_num <- as.numeric(table$sex_num)
+# Making sex numeric
 
-#t.test(sex_num, a)
+table$sex_num <- table$Sex
+table$sex_num[which(table$Sex == "female")] <- "1"
+table$sex_num[which(table$Sex == "male")] <- "0"
+table$sex_num <- as.numeric(table$sex_num)
 
+# Making country numeric
+
+table$country_num <- table$Country
+table$country_num[which(table$Country == "Australia")] <- "0"
+table$country_num[which(table$Country == "Canada")] <- "1"
+table$country_num[which(table$Country == "New Zealand")] <- "2"
+table$country_num[which(table$Country == "Sweden")] <- "3"
+table$country_num[which(table$Country == "Switzerland")] <- "4"
+table$country_num[which(table$Country == "United Kingdom")] <- "5"
+table$country_num[which(table$Country == "United States")] <- "6"
+table$country_num <- as.numeric(table$country_num)
+
+# Preparing columns for t tests
+
+
+males <- table$reported_age[which(table$sex_num == 0)]
+females <- table$reported_age[which(table$sex_num == 1)]
+
+
+
+aus <- table$reported_age[which(table$Country == "Australia")]
+us <- table$reported_age[which(table$Country == "United States")]
+uk <- table$reported_age[which(table$Country == "United Kingdom")]
+nz <- table$reported_age[which(table$Country == "New Zealand")]
+swit <- table$reported_age[which(table$Country == "Switzerland")]
+swed <- table$reported_age[which(table$Country == "Sweden")]
+can <- table$reported_age[which(table$Country == "Canada")]
+
+
+# T tests
+
+var.test(males, females) # > 0.05
+t.test(males, females, var.equal = TRUE) # t = 0.51665, p = 0.6099
+
+var.test(us, uk) # > 0.05
+t.test(us, uk, var.equal = TRUE) # t = 0.34046, p > 0.05
+
+var.test(us, can) # < 0.05
+t.test(us, can, var.equal = FALSE) # t = 2.0606, p > 0.05
+
+var.test(uk, can) # < 0.05
+t.test(uk, can, var.equal = FALSE) # t = 3.1346, p < 0.05
 ```
 
 
