@@ -13,13 +13,17 @@ nocite: '@*'
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
-#knitr::write_bib(c("knitr", "plotly", "xml2", "rvest", "tidyverse", "ggthemes"), "references.bib")
+#knitr::write_bib(c("knitr", "plotly", "xml2", "rvest", "tidyverse", "ggthemes", "DT", "data.table", "kableExtra"), "references.bib")
 
 library(xml2)
 library(rvest)
 library(tidyverse)
 library(plotly)
 library(ggthemes)
+library(data.table)
+library(DT)
+library(knitr)
+library(kableExtra)
 
 cats <- "https://en.wikipedia.org/wiki/List_of_oldest_cats"
 
@@ -43,19 +47,34 @@ table$reported_age <- as.numeric(table$reported_age)
 
 ---
 
-## Introduction
+# Introduction
 
 This is an analysis of an unofficial list from [Wikipedia](https://en.wikipedia.org/wiki/List_of_oldest_cats) of world's oldest cats. The reported ages range from precise to vague estimates. The minimum age requirement for cats to be added to this list was 25 years old. Despite this dataset being small and imprecise, I hope by examining it to discover possible factors contributing to these cats' longevity. 
 
 ---
 
-## Method
+# Method
 
-To obtain this dataset, I used the `rvest` package to webscrape the table from its Wikipedia page. In the case of cats with imprecise ages, I calculated their approximate age. For instance, if a cat was listed as being 29 years old and 8 months, I inputted their age as $29 + (8 * 30 )/365 = 29.6575$ days. Then, I used the `plotly` package to create visualizations.
+To obtain this dataset, I used the `rvest` package to webscrape the table from its Wikipedia page. In the case of cats with imprecise ages, I calculated their approximate age. For instance, if a cat was listed as being 29 years old and 8 months, I inputted their age as $29 + (8 * 30 )/365 = 29.6575$ days. I then used the `plotly` package to create visualizations to examine the dataset. Finally, I conducted several t tests to determine any significant differences between variables that might be linked to age at time of death. 
+
+---
+
+# Results
 
 ---
 
 ## Exploratory Analysis
+
+```{r} 
+mean <- mean(table$reported_age)
+sd <- sd(table$reported_age)
+
+mean <- round(mean, 4)
+sd <- round(sd, 4)
+```
+
+
+The ages of the cats ranged from 25 to 38, with a mean of `r mean` and a standard deviation of `r sd` . As can be seen in Chart 2, the majority of cats resided in the United Kingdom. There were 15 males, 12 females, and one cat of unknown sex that was removed from the dataset.
 
 <br>
 
@@ -107,6 +126,7 @@ sex <- sex %>% layout(title = "Count of Sex")
 sex
 ```
 
+
 ---
 
 ```{r include = FALSE}
@@ -153,15 +173,35 @@ var.test(males, females) # > 0.05
 t.test(males, females, var.equal = TRUE) # t = 0.51665, p = 0.6099
 
 var.test(us, uk) # > 0.05
-t.test(us, uk, var.equal = TRUE) # t = 0.34046, p > 0.05
+t.test(us, uk, var.equal = TRUE) # t = 0.34046, p = 0.7371
 
 var.test(us, can) # < 0.05
-t.test(us, can, var.equal = FALSE) # t = 2.0606, p > 0.05
+t.test(us, can, var.equal = FALSE) # t = 2.0606, p = 0.07329
 
 var.test(uk, can) # < 0.05
-t.test(uk, can, var.equal = FALSE) # t = 3.1346, p < 0.05
+t.test(uk, can, var.equal = FALSE) # t = 3.1346, p = 0.008618
 ```
 
+## Testing Differences Between Groups
 
+
+```{r results='asis'}
+variables <- c("sex", "usa_uk", "usa_canada", "uk_canada")
+t_scores <- c(0.5167, 0.3405, 2.0606, 3.1346)
+p_values <- c(0.6099, 0.7371, 0.0733, 0.0086)
+
+t_tests <- data.table(variables, t_scores, p_values)
+
+values_table <- kable(t_tests, caption = "T Test Scores")
+
+values_table %>%
+  row_spec(4, background = "#66ff66") %>%
+  kable_material()
+```
+---
+
+## Discussion
+
+---
 
 # References
