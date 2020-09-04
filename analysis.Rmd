@@ -9,7 +9,7 @@ nocite: '@*'
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE, fig.width = 6, fig.height = 6)
+knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 
 #knitr::write_bib(c("knitr", "plotly", "xml2", "rvest", "tidyverse", "ggthemes", "DT", "data.table", "kableExtra"), "references.bib")
 
@@ -76,6 +76,8 @@ The ages of the cats ranged from 25 to 38, with a mean of `r mean` and a standar
 
 <br>
 
+<center>
+
 ```{r ages}
 tab_age <- table %>%
   mutate(Name = fct_reorder(Name, reported_age)) 
@@ -88,7 +90,8 @@ ages
 ```
 
 
-<br><br>
+<br>
+<br>
 
 
 ```{r country}
@@ -124,6 +127,7 @@ sex <- sex %>% layout(title = "Count of Sex")
 sex
 ```
 
+</center>
 
 ---
 
