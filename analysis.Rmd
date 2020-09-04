@@ -3,9 +3,7 @@ title: "Analysis of The Characteristics of the Oldest Living Cats"
 always_allow_html: true
 author: "Rachel Bellflowers"
 date: "`r format(Sys.time(), '%d %B, %Y')`"
-output: 
-  html_document:
-    keep_md: true
+output: html_document
 bibliography: references.bib  
 nocite: '@*'
 ---
